@@ -28,19 +28,5 @@ export class VoteController {
     }
   }
 
-  static async getCommentVoteStats(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const commentId = parseInt(req.params.commentId);
-      const response = await VoteService.getCommentVoteStats(commentId);
-      res.status(200).json({
-        data: response,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
 }
+

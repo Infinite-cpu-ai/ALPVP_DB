@@ -9,8 +9,3 @@ export interface CreateVoteRequest {
   vote_type: "upvote" | "downvote";
 }
 
-export interface VoteStatsResponse {
-  upvotes: number;
-  downvotes: number;
-  total: number;
-}

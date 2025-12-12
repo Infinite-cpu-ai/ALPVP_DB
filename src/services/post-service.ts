@@ -79,23 +79,17 @@ export class PostService {
       image: post.image,
       created_at: post.created_at,
       username: post.user.username,
-      comments: post.comments.map((comment) => {
-        const upvotes = comment.commentVotes.filter(
-          (cv) => cv.vote.vote_type === "upvote"
-        ).length;
-        const downvotes = comment.commentVotes.filter(
-          (cv) => cv.vote.vote_type === "downvote"
-        ).length;
-
-        return {
-          id: comment.id,
-          post_id: comment.post_id,
-          content: comment.content,
-          created_at: comment.created_at,
-          upvotes,
-          downvotes,
-        };
-      }),
+      comments: post.comments.map((comment) => ({
+        id: comment.id,
+        post_id: comment.post_id,
+        content: comment.content,
+        created_at: comment.created_at,
+        commentVotes: comment.commentVotes.map((cv) => ({
+          id: cv.vote.id,
+          vote_type: cv.vote.vote_type as "upvote" | "downvote",
+          comment_id: comment.id,
+        })),
+      })),
     }));
   }
 
@@ -134,23 +128,17 @@ export class PostService {
       image: post.image,
       created_at: post.created_at,
       username: post.user.username,
-      comments: post.comments.map((comment) => {
-        const upvotes = comment.commentVotes.filter(
-          (cv) => cv.vote.vote_type === "upvote"
-        ).length;
-        const downvotes = comment.commentVotes.filter(
-          (cv) => cv.vote.vote_type === "downvote"
-        ).length;
-
-        return {
-          id: comment.id,
-          post_id: comment.post_id,
-          content: comment.content,
-          created_at: comment.created_at,
-          upvotes,
-          downvotes,
-        };
-      }),
+      comments: post.comments.map((comment) => ({
+        id: comment.id,
+        post_id: comment.post_id,
+        content: comment.content,
+        created_at: comment.created_at,
+        commentVotes: comment.commentVotes.map((cv) => ({
+          id: cv.vote.id,
+          vote_type: cv.vote.vote_type as "upvote" | "downvote",
+          comment_id: comment.id,
+        })),
+      })),
     };
   }
 

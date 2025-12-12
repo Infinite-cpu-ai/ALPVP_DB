@@ -23,4 +23,4 @@ publicRouter.get("/posts/:postId/comments", CommentController.getCommentsByPostI
 
 publicRouter.post("/votes", VoteController.addVote);
 publicRouter.delete("/votes/:voteId", VoteController.removeVote);
-publicRouter.get("/comments/:commentId/votes/stats", VoteController.getCommentVoteStats);
+// Note: vote stats removed from backend; frontend should compute totals from returned vote lists

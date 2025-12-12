@@ -1,7 +1,6 @@
 import {
   CreateVoteRequest,
   VoteResponse,
-  VoteStatsResponse,
 } from "../models/vote-model";
 import { prismaClient } from "../utils/database-util";
 import { VoteValidation } from "../validations/vote-validation";
@@ -56,35 +55,5 @@ export class VoteService {
     await prismaClient.vote.delete({
       where: { id: voteId },
     });
-  }
-
-  static async getCommentVoteStats(commentId: number): Promise<VoteStatsResponse> {
-    const comment = await prismaClient.comment.findUnique({
-      where: { id: commentId },
-      include: {
-        commentVotes: {
-          include: {
-            vote: true,
-          },
-        },
-      },
-    });
-
-    if (!comment) {
-      throw new ResponseError(404, "Comment not found");
-    }
-
-    const upvotes = comment.commentVotes.filter(
-      (cv) => cv.vote.vote_type === "upvote"
-    ).length;
-    const downvotes = comment.commentVotes.filter(
-      (cv) => cv.vote.vote_type === "downvote"
-    ).length;
-
-    return {
-      upvotes,
-      downvotes,
-      total: upvotes - downvotes,
-    };
   }
 }

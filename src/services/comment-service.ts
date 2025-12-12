@@ -36,8 +36,7 @@ export class CommentService {
       post_id: comment.post_id,
       content: comment.content,
       created_at: comment.created_at,
-      upvotes: 0,
-      downvotes: 0,
+      commentVotes: [],
     };
   }
 
@@ -57,20 +56,16 @@ export class CommentService {
       throw new ResponseError(404, "Comment not found");
     }
 
-    const upvotes = comment.commentVotes.filter(
-      (cv) => cv.vote.vote_type === "upvote"
-    ).length;
-    const downvotes = comment.commentVotes.filter(
-      (cv) => cv.vote.vote_type === "downvote"
-    ).length;
-
     return {
       id: comment.id,
       post_id: comment.post_id,
       content: comment.content,
       created_at: comment.created_at,
-      upvotes,
-      downvotes,
+      commentVotes: comment.commentVotes.map((cv) => ({
+        id: cv.vote.id,
+        vote_type: cv.vote.vote_type as "upvote" | "downvote",
+        comment_id: comment.id,
+      })),
     };
   }
 
@@ -110,20 +105,16 @@ export class CommentService {
       },
     });
 
-    const upvotes = comment.commentVotes.filter(
-      (cv) => cv.vote.vote_type === "upvote"
-    ).length;
-    const downvotes = comment.commentVotes.filter(
-      (cv) => cv.vote.vote_type === "downvote"
-    ).length;
-
     return {
       id: comment.id,
       post_id: comment.post_id,
       content: comment.content,
       created_at: comment.created_at,
-      upvotes,
-      downvotes,
+      commentVotes: comment.commentVotes.map((cv) => ({
+        id: cv.vote.id,
+        vote_type: cv.vote.vote_type as "upvote" | "downvote",
+        comment_id: comment.id,
+      })),
     };
   }
 
@@ -169,8 +160,11 @@ export class CommentService {
         post_id: comment.post_id,
         content: comment.content,
         created_at: comment.created_at,
-        upvotes,
-        downvotes,
+        commentVotes: comment.commentVotes.map((cv) => ({
+          id: cv.vote.id,
+          vote_type: cv.vote.vote_type as "upvote" | "downvote",
+          comment_id: comment.id,
+        })),
       };
     });
   }

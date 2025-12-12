@@ -1,10 +1,12 @@
+import { VoteResponse } from "./vote-model";
+
 export interface CommentResponse {
   id: number;
   post_id: number;
   content: string;
   created_at: Date;
-  upvotes: number;
-  downvotes: number;
+  // raw votes attached to this comment; frontend can compute totals
+  commentVotes?: VoteResponse[];
 }
 
 export interface CreateCommentRequest {
